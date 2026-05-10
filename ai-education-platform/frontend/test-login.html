@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测试登录</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 400px; margin: 50px auto; padding: 20px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; }
+    .form-group input { width: 100%; padding: 10px; box-sizing: border-box; }
+    button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; cursor: pointer; }
+    button:disabled { background: #ccc; }
+    .message { margin-top: 15px; padding: 10px; border-radius: 4px; }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+  <h2>测试登录</h2>
+  
+  <div class="form-group">
+    <label>用户名</label>
+    <input type="text" id="username" placeholder="请输入用户名" value="student1">
+  </div>
+  
+  <div class="form-group">
+    <label>密码</label>
+    <input type="password" id="password" placeholder="请输入密码" value="123456">
+  </div>
+  
+  <button id="loginBtn" onclick="handleLogin()">登录</button>
+  
+  <div id="message"></div>
+
+  <script>
+    async function handleLogin() {
+      const btn = document.getElementById('loginBtn');
+      const message = document.getElementById('message');
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      btn.disabled = true;
+      btn.textContent = '登录中...';
+      message.innerHTML = '';
+      
+      try {
+        const response = await fetch(window.location.origin + '/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          
+          document.cookie = `ai_edu_token=${data.access_token}; path=/; SameSite=Lax`;
+          document.cookie = `ai_edu_user=${encodeURIComponent(JSON.stringify(data.user))}; path=/; SameSite=Lax`;
+          
+          message.className = 'message success';
+          message.textContent = '登录成功！Token: ' + data.access_token.substring(0, 30) + '...';
+          
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1000);
+        } else {
+          message.className = 'message error';
+          message.textContent = data.detail || '登录失败';
+        }
+      } catch (error) {
+        message.className = 'message error';
+        message.textContent = '网络错误: ' + error.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '登录';
+      }
+    }
+  </script>
+</body>
+</html>

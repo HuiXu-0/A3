@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: ai-edu-platform
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DB_PATH=/app/data/database.db
+      - JWT_SECRET=your-secret-key-change-in-production
+      - LLM_MODE=mock
+    restart: unless-stopped

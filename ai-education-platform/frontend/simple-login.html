@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI个性化教育平台 - 登录</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .login-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* 左侧动画区域 */
+    .animation-section {
+      flex: 1;
+      background: linear-gradient(135deg, #6C3FF5 0%, #4B2B95 50%, #7B4CDB 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 48px;
+      color: white;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+        /* 卡通角色容器 */
+    .characters-container {
+      position: relative;
+      width: 100%;
+      height: 460px;
+      margin-top: -40px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .characters-wrapper {
+      position: relative;
+      width: 550px;
+      height: 440px;
+    }
+
+    /* 基础角色样式 */
+    .character {
+      position: absolute;
+      bottom: 0;
+      transition: transform 0.15s ease-out, height 0.15s ease-out;
+      transform-origin: bottom center;
+      will-change: transform, height;
+    }
+
+    .character.slow-transition {
+      transition: transform 0.7s ease-in-out, height 0.7s ease-in-out;
+    }
+
+    .character.slow-transition-exit {
+      transition: transform 0.5s ease-in-out, height 0.5s ease-in-out;
+    }
+
+    .character-eyes {
+      position: absolute;
+      display: flex;
+      gap: 10px;
+      transition: left 0.15s ease-out, top 0.15s ease-out;
+      will-change: left, top;
+    }
+
+    .character-eyes.slow-transition {
+      transition: left 0.7s ease-in-out, top 0.7s ease-in-out;
+    }
+
+    .character-eyes.slow-transition-exit {
+      transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+    }
+
+    .eye {
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .pupil {
+      width: 8px;
+      height: 8px;
+      background: #2D2D2D;
+      border-radius: 50%;
+      position: absolute;
+      transition: transform 0.1s ease-out;
+    }
+
+    .pupil.slow-transition {
+      transition: transform 0.7s ease-in-out;
+    }
+
+    .pupil.slow-transition-exit {
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .eye.blinking {
+      height: 2px;
+      background: #2D2D2D;
+    }
+
+    .eye.blinking .pupil {
+      display: none;
+    }
+
+    /* 紫色角色 - 最高 */
+    .character-purple {
+      left: 70px;
+      width: 180px;
+      height: 400px;
+      background: #6C3FF5;
+      border-radius: 10px 10px 0 0;
+      z-index: 1;
+    }
+
+    .character-purple.tall {
+      height: 440px;
+    }
+
+    .character-purple.peeking {
+      transform: skewX(0deg) !important;
+    }
+
+    .character-purple .character-eyes {
+      top: 40px;
+      left: 45px;
+      gap: 8px;
+    }
+
+    .character-purple .eye {
+      width: 18px;
+      height: 18px;
+    }
+
+    .character-purple .pupil {
+      width: 7px;
+      height: 7px;
+    }
+
+    /* 黑色角色 */
+    .character-black {
+      left: 240px;
+      width: 120px;
+      height: 310px;
+      background: #2D2D2D;
+      border-radius: 8px 8px 0 0;
+      z-index: 2;
+    }
+
+    .character-black.peeking {
+      transform: skewX(0deg) !important;
+    }
+
+    .character-black .character-eyes {
+      top: 32px;
+      left: 26px;
+      gap: 6px;
+    }
+
+    .character-black .eye {
+      width: 16px;
+      height: 16px;
+    }
+
+    .character-black .pupil {
+      width: 6px;
+      height: 6px;
+    }
+
+    /* 橙色角色 - 半圆形 */
+    .character-orange {
+      left: 0px;
+      width: 240px;
+      height: 200px;
+      background: #FF9B6B;
+      border-radius: 120px 120px 0 0;
+      z-index: 3;
+    }
+
+    .character-orange.peeking {
+      transform: skewX(0deg) !important;
+    }
+
+    .character-orange .character-eyes {
+      top: 90px;
+      left: 82px;
+      gap: 8px;
+    }
+
+    .character-orange .eye {
+          background: white;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        .character-orange .pupil {
+          width: 6px;
+          height: 6px;
+          background: #2D2D2D;
+          border-radius: 50%;
+          position: absolute;
+        }
+
+    /* 黄色角色 */
+    .character-yellow {
+      left: 310px;
+      width: 140px;
+      height: 230px;
+      background: #E8D754;
+      border-radius: 70px 70px 0 0;
+      z-index: 4;
+    }
+
+    .character-yellow.peeking {
+      transform: skewX(0deg) !important;
+    }
+
+    .character-yellow .character-eyes {
+      top: 40px;
+      left: 52px;
+      gap: 6px;
+    }
+
+    .character-yellow .eye {
+          background: white;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        .character-yellow .pupil {
+          width: 6px;
+          height: 6px;
+          background: #2D2D2D;
+          border-radius: 50%;
+          position: absolute;
+        }
+
+        .character-orange .eye.blinking,
+        .character-yellow .eye.blinking {
+          transform: scaleY(0.1);
+        }
+
+    .character-yellow .mouth {
+      position: absolute;
+      width: 80px;
+      height: 4px;
+      background: #2D2D2D;
+      border-radius: 2px;
+      top: 88px;
+      left: 40px;
+      transition: all 0.2s ease-out;
+    }
+
+    /* 装饰元素 */
+    .decorative-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .decorative-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.15;
+    }
+
+    .blob-1 {
+      top: 25%;
+      right: 25%;
+      width: 256px;
+      height: 256px;
+      background: white;
+    }
+
+    .blob-2 {
+      bottom: 25%;
+      left: 25%;
+      width: 384px;
+      height: 384px;
+      background: white;
+    }
+
+    /* 右侧登录区域 */
+    .login-section {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: #F8F9FA;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      padding: 48px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .login-logo-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-logo {
+      font-size: 45px;
+      color: white;
+    }
+
+    .login-header h1 {
+      color: #1f2937;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .login-header p {
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .login-role-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .role-tab {
+      flex: 1;
+      padding: 14px 10px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-tab::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .role-tab:hover {
+      border-color: #a78bfa;
+      background: #faf5ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+    }
+
+    .role-tab:hover::before {
+      transform: scaleX(1);
+    }
+
+    .role-tab.active {
+      border-color: #8b5cf6;
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.25);
+    }
+
+    .role-tab.active::before {
+      transform: scaleX(1);
+    }
+
+    .role-tab.active i,
+    .role-tab.active span {
+      color: #7c3aed;
+    }
+
+    .role-tab i {
+      font-size: 22px;
+      color: #9ca3af;
+      transition: color 0.3s ease;
+    }
+
+    .role-tab span {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      color: #374151;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+    }
+
+    .input-wrapper i.toggle-password {
+      left: auto;
+      right: 16px;
+      cursor: pointer;
+      color: #9ca3af;
+      transition: color 0.3s ease;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 16px 48px 16px 48px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #1f2937;
+      background: #f9fafb;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #8b5cf6;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1), 0 4px 12px rgba(139, 92, 246, 0.15);
+    }
+
+    .btn {
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
+      background-size: 200% 200%;
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+      background-position: 100% 50%;
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-hint {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .login-hint p {
+      color: #9ca3af;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .login-hint span {
+      color: #8b5cf6;
+      font-weight: 600;
+    }
+
+    /* Toast 消息提示 */
+    .toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      animation: slideInRight 0.4s ease-out;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .toast-success {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    }
+
+    .toast-error {
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    }
+
+    .toast-warning {
+      background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+    }
+
+    .loading-icon {
+      display: inline-block;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 1024px) {
+      .login-container {
+        flex-direction: column;
+      }
+
+      .animation-section {
+        padding: 30px;
+        min-height: 400px;
+      }
+
+      .characters-wrapper {
+        transform: scale(0.7);
+      }
+
+      .login-section {
+        padding: 20px;
+      }
+
+      .login-box {
+        padding: 32px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="login-container">
+    <!-- 左侧动画区域 -->
+    <div class="animation-section">
+      <div class="brand-logo">
+        <span>AI教育平台</span>
+      </div>
+
+      <div class="characters-container">
+        <div class="characters-wrapper" id="charactersWrapper">
+          <!-- 紫色角色 -->
+          <div class="character character-purple" id="purpleCharacter">
+            <div class="character-eyes">
+              <div class="eye" id="purpleEye1">
+                <div class="pupil" id="purplePupil1"></div>
+              </div>
+              <div class="eye" id="purpleEye2">
+                <div class="pupil" id="purplePupil2"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 黑色角色 -->
+          <div class="character character-black" id="blackCharacter">
+            <div class="character-eyes">
+              <div class="eye" id="blackEye1">
+                <div class="pupil" id="blackPupil1"></div>
+              </div>
+              <div class="eye" id="blackEye2">
+                <div class="pupil" id="blackPupil2"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 橙色角色 -->
+          <div class="character character-orange" id="orangeCharacter">
+            <div class="character-eyes">
+              <div class="eye" id="orangeEye1">
+                <div class="pupil" id="orangePupil1"></div>
+              </div>
+              <div class="eye" id="orangeEye2">
+                <div class="pupil" id="orangePupil2"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 黄色角色 -->
+          <div class="character character-yellow" id="yellowCharacter">
+            <div class="character-eyes">
+              <div class="eye" id="yellowEye1">
+                <div class="pupil" id="yellowPupil1"></div>
+              </div>
+              <div class="eye" id="yellowEye2">
+                <div class="pupil" id="yellowPupil2"></div>
+              </div>
+            </div>
+            <div class="mouth"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 装饰元素 -->
+      <div class="decorative-grid"></div>
+      <div class="decorative-blob blob-1"></div>
+      <div class="decorative-blob blob-2"></div>
+    </div>
+
+    <!-- 右侧登录区域 -->
+    <div class="login-section">
+      <div class="login-box">
+        <div class="login-header">
+          <div class="login-logo-wrapper">
+            <i class="login-logo fas fa-graduation-cap"></i>
+          </div>
+          <h1>AI个性化教育平台</h1>
+          <p>基于大模型的个性化资源生成与学习多智能体系统</p>
+        </div>
+
+        <div class="login-role-tabs">
+          <button class="role-tab active" data-role="student">
+            <i class="fas fa-user-graduate"></i>
+            <span>学生</span>
+          </button>
+          <button class="role-tab" data-role="teacher">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>教师</span>
+          </button>
+          <button class="role-tab" data-role="counselor">
+            <i class="fas fa-user-tie"></i>
+            <span>辅导员</span>
+          </button>
+          <button class="role-tab" data-role="admin">
+            <i class="fas fa-user-shield"></i>
+            <span>管理员</span>
+          </button>
+        </div>
+
+        <form class="login-form" id="loginForm">
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> 账号</label>
+            <div class="input-wrapper">
+              <input id="username" type="text" placeholder="请输入账号" required autocomplete="username">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-lock"></i> 密码</label>
+            <div class="input-wrapper">
+              <input id="password" type="password" placeholder="请输入密码" required autocomplete="current-password" style="padding-right: 48px;">
+              <i class="fas fa-lock"></i>
+              <i id="togglePassword" class="fas fa-eye-slash toggle-password"></i>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="loginBtn">
+            <i id="loadingIcon" style="display:none" class="fas fa-spinner loading-icon"></i>
+            <span id="loginText">登 录</span>
+          </button>
+        </form>
+
+        <div class="login-hint">
+          <p>演示账号: <span>student1</span> / <span>student2</span> / <span>teacher1</span> / <span>counselor1</span> / <span>admin1</span> / <span>admin</span></p>
+          <p>密码: <span>123456</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast 消息提示 -->
+  <div id="toast" class="toast" style="display:none">
+    <i id="toastIcon"></i>
+    <span id="toastMessage"></span>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginForm = document.getElementById('loginForm');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const loginBtn = document.getElementById('loginBtn');
+      const loadingIcon = document.getElementById('loadingIcon');
+      const loginText = document.getElementById('loginText');
+      const toast = document.getElementById('toast');
+      const toastIcon = document.getElementById('toastIcon');
+      const toastMessage = document.getElementById('toastMessage');
+      const togglePassword = document.getElementById('togglePassword');
+
+      // 角色元素
+      const purpleCharacter = document.getElementById('purpleCharacter');
+      const blackCharacter = document.getElementById('blackCharacter');
+      const orangeCharacter = document.getElementById('orangeCharacter');
+      const yellowCharacter = document.getElementById('yellowCharacter');
+      const purpleEyes = purpleCharacter.querySelector('.character-eyes');
+      const blackEyes = blackCharacter.querySelector('.character-eyes');
+      const orangeEyes = orangeCharacter.querySelector('.character-eyes');
+      const yellowEyes = yellowCharacter.querySelector('.character-eyes');
+      const yellowMouth = yellowCharacter.querySelector('.mouth');
+
+      // 眼睛元素
+      const purpleEye1 = document.getElementById('purpleEye1');
+      const purpleEye2 = document.getElementById('purpleEye2');
+      const blackEye1 = document.getElementById('blackEye1');
+      const blackEye2 = document.getElementById('blackEye2');
+      const orangeEye1 = document.getElementById('orangeEye1');
+      const orangeEye2 = document.getElementById('orangeEye2');
+      const yellowEye1 = document.getElementById('yellowEye1');
+      const yellowEye2 = document.getElementById('yellowEye2');
+
+      // 瞳孔元素
+      const pupils = [
+        document.getElementById('purplePupil1'),
+        document.getElementById('purplePupil2'),
+        document.getElementById('blackPupil1'),
+        document.getElementById('blackPupil2'),
+        document.getElementById('orangePupil1'),
+        document.getElementById('orangePupil2'),
+        document.getElementById('yellowPupil1'),
+        document.getElementById('yellowPupil2')
+      ];
+
+      // 状态变量
+      let selectedRole = 'student';
+      let showPassword = false;
+      let mouseX = 0;
+      let mouseY = 0;
+      let isPurpleBlinking = false;
+      let isBlackBlinking = false;
+      let isTyping = false;
+      let isLookingAtEachOther = false;
+      let isPurplePeeking = false;
+      let peekTimeout = null;
+
+      // 角色选择
+      document.querySelectorAll('.role-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          selectedRole = this.getAttribute('data-role');
+        });
+      });
+
+      // 鼠标移动追踪 - 使用requestAnimationFrame优化性能
+      let rafId = null;
+      window.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+        }
+        
+        if (!isLookingAtEachOther && !(passwordInput.value.length > 0 && showPassword)) {
+          rafId = requestAnimationFrame(function() {
+            updatePupilPositions();
+            updateCharacterPositions();
+          });
+        }
+      });
+
+      // 计算瞳孔位置
+      function updatePupilPositions() {
+        // 增加瞳孔移动范围，让眼睛更有神
+        const maxDistances = [6, 6, 5, 5, 7, 7, 7, 7];
+        
+        pupils.forEach(function(pupil, index) {
+          if (!pupil) return;
+          
+          const eye = pupil.parentElement;
+          const eyeRect = eye.getBoundingClientRect();
+          const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+          const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+          
+          const deltaX = mouseX - eyeCenterX;
+          const deltaY = mouseY - eyeCenterY;
+          const distance = Math.min(Math.sqrt(deltaX * deltaX + deltaY * deltaY), maxDistances[index]);
+          
+          const angle = Math.atan2(deltaY, deltaX);
+          const x = Math.cos(angle) * distance;
+          const y = Math.sin(angle) * distance;
+          
+          // 添加一点随机抖动，让眼神更生动
+          const jitter = (Math.random() - 0.5) * 0.5;
+          pupil.style.transform = `translate(${x + jitter}px, ${y + jitter}px)`;
+        });
+      }
+
+      // 计算角色位置和倾斜
+      function calculatePosition(element) {
+        if (!element) return { faceX: 0, faceY: 0, bodySkew: 0 };
+        
+        const rect = element.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 3;
+        
+        const deltaX = mouseX - centerX;
+        const deltaY = mouseY - centerY;
+        
+        const faceX = Math.max(-15, Math.min(15, deltaX / 20));
+        const faceY = Math.max(-10, Math.min(10, deltaY / 30));
+        const bodySkew = Math.max(-6, Math.min(6, -deltaX / 120));
+        
+        return { faceX, faceY, bodySkew };
+      }
+
+      // 更新角色位置
+      function updateCharacterPositions() {
+        const purplePos = calculatePosition(purpleCharacter);
+        const blackPos = calculatePosition(blackCharacter);
+        const orangePos = calculatePosition(orangeCharacter);
+        const yellowPos = calculatePosition(yellowCharacter);
+        
+        // 更新紫色角色
+        if (!(isTyping || (passwordInput.value.length > 0 && !showPassword))) {
+          purpleCharacter.style.transform = `skewX(${purplePos.bodySkew}deg)`;
+        }
+        purpleEyes.style.left = `${45 + purplePos.faceX}px`;
+        purpleEyes.style.top = `${40 + purplePos.faceY}px`;
+        
+        // 更新黑色角色
+        if (!isTyping && !(passwordInput.value.length > 0 && showPassword)) {
+          blackCharacter.style.transform = `skewX(${blackPos.bodySkew}deg)`;
+        }
+        blackEyes.style.left = `${26 + blackPos.faceX}px`;
+        blackEyes.style.top = `${32 + blackPos.faceY}px`;
+        
+        // 更新橙色角色
+        if (!(passwordInput.value.length > 0 && showPassword)) {
+          orangeCharacter.style.transform = `skewX(${orangePos.bodySkew}deg)`;
+        }
+        orangeEyes.style.left = `${82 + orangePos.faceX}px`;
+        orangeEyes.style.top = `${90 + orangePos.faceY}px`;
+        
+        // 更新黄色角色
+        if (!(passwordInput.value.length > 0 && showPassword)) {
+          yellowCharacter.style.transform = `skewX(${yellowPos.bodySkew}deg)`;
+        }
+        yellowEyes.style.left = `${52 + yellowPos.faceX}px`;
+        yellowEyes.style.top = `${40 + yellowPos.faceY}px`;
+        yellowMouth.style.left = `${40 + yellowPos.faceX}px`;
+        yellowMouth.style.top = `${88 + yellowPos.faceY}px`;
+        
+        // 根据鼠标位置让黄色角色微笑
+        const smileAmount = Math.min(Math.abs(yellowPos.faceX) / 10, 1);
+        yellowMouth.style.borderRadius = `${20 * smileAmount}px ${20 * smileAmount}px 0 0`;
+        yellowMouth.style.transform = `scaleY(${0.8 + smileAmount * 0.4})`;
+      }
+
+      // 紫色角色眨眼效果
+      function schedulePurpleBlink() {
+        const getRandomInterval = () => Math.random() * 4000 + 3000;
+        
+        const blinkTimeout = setTimeout(function() {
+          setIsPurpleBlinking(true);
+          setTimeout(function() {
+            setIsPurpleBlinking(false);
+            schedulePurpleBlink();
+          }, 150);
+        }, getRandomInterval());
+        
+        return blinkTimeout;
+      }
+
+      function setIsPurpleBlinking(blinking) {
+        isPurpleBlinking = blinking;
+        if (blinking) {
+          purpleEye1.classList.add('blinking');
+          purpleEye2.classList.add('blinking');
+        } else {
+          purpleEye1.classList.remove('blinking');
+          purpleEye2.classList.remove('blinking');
+        }
+      }
+
+      // 黑色角色眨眼效果
+      function scheduleBlackBlink() {
+        const getRandomInterval = () => Math.random() * 4000 + 3000;
+        
+        const blinkTimeout = setTimeout(function() {
+          setIsBlackBlinking(true);
+          setTimeout(function() {
+            setIsBlackBlinking(false);
+            scheduleBlackBlink();
+          }, 150);
+        }, getRandomInterval());
+        
+        return blinkTimeout;
+      }
+
+      function setIsBlackBlinking(blinking) {
+        isBlackBlinking = blinking;
+        if (blinking) {
+          blackEye1.classList.add('blinking');
+          blackEye2.classList.add('blinking');
+        } else {
+          blackEye1.classList.remove('blinking');
+          blackEye2.classList.remove('blinking');
+        }
+      }
+
+      // 橙色角色眨眼效果
+      function scheduleOrangeBlink() {
+        const getRandomInterval = () => Math.random() * 5000 + 4000;
+        
+        const blinkTimeout = setTimeout(function() {
+          setIsOrangeBlinking(true);
+          setTimeout(function() {
+            setIsOrangeBlinking(false);
+            scheduleOrangeBlink();
+          }, 150);
+        }, getRandomInterval());
+        
+        return blinkTimeout;
+      }
+
+      function setIsOrangeBlinking(blinking) {
+        if (blinking) {
+          orangeEye1.classList.add('blinking');
+          orangeEye2.classList.add('blinking');
+        } else {
+          orangeEye1.classList.remove('blinking');
+          orangeEye2.classList.remove('blinking');
+        }
+      }
+
+      // 黄色角色眨眼效果
+      function scheduleYellowBlink() {
+        const getRandomInterval = () => Math.random() * 5000 + 4000;
+        
+        const blinkTimeout = setTimeout(function() {
+          setIsYellowBlinking(true);
+          setTimeout(function() {
+            setIsYellowBlinking(false);
+            scheduleYellowBlink();
+          }, 150);
+        }, getRandomInterval());
+        
+        return blinkTimeout;
+      }
+
+      function setIsYellowBlinking(blinking) {
+        if (blinking) {
+          yellowEye1.classList.add('blinking');
+          yellowEye2.classList.add('blinking');
+        } else {
+          yellowEye1.classList.remove('blinking');
+          yellowEye2.classList.remove('blinking');
+        }
+      }
+
+      schedulePurpleBlink();
+      scheduleBlackBlink();
+      scheduleOrangeBlink();
+      scheduleYellowBlink();
+
+      // 打字时互相看的效果
+      function handleTypingStart() {
+        isTyping = true;
+        isLookingAtEachOther = true;
+        
+        // 添加慢速过渡效果
+        purpleCharacter.classList.add('slow-transition');
+        purpleEyes.classList.add('slow-transition');
+        blackCharacter.classList.add('slow-transition');
+        blackEyes.classList.add('slow-transition');
+        
+        // 瞳孔也使用慢速过渡
+        pupils[0].classList.add('slow-transition');
+        pupils[1].classList.add('slow-transition');
+        pupils[2].classList.add('slow-transition');
+        pupils[3].classList.add('slow-transition');
+        
+        // 紫色角色伸长并倾斜
+        purpleCharacter.style.height = '440px';
+        purpleCharacter.style.transform = `skewX(${calculatePosition(purpleCharacter).bodySkew - 12}deg) translateX(40px)`;
+        purpleEyes.style.left = '55px';
+        purpleEyes.style.top = '65px';
+        
+        // 黑色角色倾斜
+        blackCharacter.style.transform = `skewX(${calculatePosition(blackCharacter).bodySkew * 1.5 + 10}deg) translateX(20px)`;
+        blackEyes.style.left = '32px';
+        blackEyes.style.top = '12px';
+        
+        // 紫色看向黑色（向右下）- 延迟一点让身体先动
+        setTimeout(function() {
+          pupils[0].style.transform = 'translate(3px, 4px)';
+          pupils[1].style.transform = 'translate(3px, 4px)';
+          
+          // 黑色看向紫色（向上）
+          pupils[2].style.transform = 'translate(0px, -4px)';
+          pupils[3].style.transform = 'translate(0px, -4px)';
+        }, 150);
+        
+        // 800ms后恢复
+        setTimeout(function() {
+          isLookingAtEachOther = false;
+          
+          // 切换到退出速度
+          purpleCharacter.classList.remove('slow-transition');
+          purpleCharacter.classList.add('slow-transition-exit');
+          purpleEyes.classList.remove('slow-transition');
+          purpleEyes.classList.add('slow-transition-exit');
+          blackCharacter.classList.remove('slow-transition');
+          blackCharacter.classList.add('slow-transition-exit');
+          blackEyes.classList.remove('slow-transition');
+          blackEyes.classList.add('slow-transition-exit');
+          
+          pupils[0].classList.remove('slow-transition');
+          pupils[0].classList.add('slow-transition-exit');
+          pupils[1].classList.remove('slow-transition');
+          pupils[1].classList.add('slow-transition-exit');
+          pupils[2].classList.remove('slow-transition');
+          pupils[2].classList.add('slow-transition-exit');
+          pupils[3].classList.remove('slow-transition');
+          pupils[3].classList.add('slow-transition-exit');
+          
+          if (!(passwordInput.value.length > 0 && showPassword)) {
+            updatePupilPositions();
+            updateCharacterPositions();
+          }
+          
+          // 恢复正常速度
+          setTimeout(function() {
+            purpleCharacter.classList.remove('slow-transition-exit');
+            purpleEyes.classList.remove('slow-transition-exit');
+            blackCharacter.classList.remove('slow-transition-exit');
+            blackEyes.classList.remove('slow-transition-exit');
+            pupils[0].classList.remove('slow-transition-exit');
+            pupils[1].classList.remove('slow-transition-exit');
+            pupils[2].classList.remove('slow-transition-exit');
+            pupils[3].classList.remove('slow-transition-exit');
+          }, 500);
+        }, 800);
+      }
+
+      function handleTypingEnd() {
+        isTyping = false;
+        
+        // 使用退出速度恢复
+        purpleCharacter.classList.remove('slow-transition');
+        purpleCharacter.classList.add('slow-transition-exit');
+        purpleEyes.classList.remove('slow-transition');
+        purpleEyes.classList.add('slow-transition-exit');
+        blackCharacter.classList.remove('slow-transition');
+        blackCharacter.classList.add('slow-transition-exit');
+        blackEyes.classList.remove('slow-transition');
+        blackEyes.classList.add('slow-transition-exit');
+        
+        pupils[0].classList.remove('slow-transition');
+        pupils[0].classList.add('slow-transition-exit');
+        pupils[1].classList.remove('slow-transition');
+        pupils[1].classList.add('slow-transition-exit');
+        pupils[2].classList.remove('slow-transition');
+        pupils[2].classList.add('slow-transition-exit');
+        pupils[3].classList.remove('slow-transition');
+        pupils[3].classList.add('slow-transition-exit');
+        
+        if (!(passwordInput.value.length > 0 && !showPassword)) {
+          purpleCharacter.style.height = '400px';
+        }
+        
+        if (!(passwordInput.value.length > 0 && showPassword)) {
+          updateCharacterPositions();
+          updatePupilPositions();
+        }
+        
+        // 恢复正常速度
+        setTimeout(function() {
+          purpleCharacter.classList.remove('slow-transition-exit');
+          purpleEyes.classList.remove('slow-transition-exit');
+          blackCharacter.classList.remove('slow-transition-exit');
+          blackEyes.classList.remove('slow-transition-exit');
+          pupils[0].classList.remove('slow-transition-exit');
+          pupils[1].classList.remove('slow-transition-exit');
+          pupils[2].classList.remove('slow-transition-exit');
+          pupils[3].classList.remove('slow-transition-exit');
+        }, 500);
+      }
+
+      // 密码偷看效果
+      function clearPeekTimeout() {
+        if (peekTimeout) {
+          clearTimeout(peekTimeout);
+          peekTimeout = null;
+        }
+      }
+
+      function schedulePeek() {
+        clearPeekTimeout();
+        
+        if (passwordInput.value.length > 0 && showPassword) {
+          peekTimeout = setTimeout(function() {
+            isPurplePeeking = true;
+            
+            // 紫色角色偷看密码（向右下）
+            purpleCharacter.style.height = '400px';
+            purpleCharacter.style.transform = 'skewX(0deg)';
+            purpleEyes.style.left = '20px';
+            purpleEyes.style.top = '35px';
+            pupils[0].style.transform = 'translate(4px, 5px)';
+            pupils[1].style.transform = 'translate(4px, 5px)';
+            
+            // 黑色角色看向别处（向左上）
+            blackCharacter.style.transform = 'skewX(0deg)';
+            blackEyes.style.left = '10px';
+            blackEyes.style.top = '28px';
+            pupils[2].style.transform = 'translate(-4px, -4px)';
+            pupils[3].style.transform = 'translate(-4px, -4px)';
+            
+            // 橙色角色看向别处（向左上）
+            orangeCharacter.style.transform = 'skewX(0deg)';
+            orangeEyes.style.left = '50px';
+            orangeEyes.style.top = '85px';
+            pupils[4].style.transform = 'translate(-5px, -4px)';
+            pupils[5].style.transform = 'translate(-5px, -4px)';
+            
+            // 黄色角色看向别处（向左上）
+            yellowCharacter.style.transform = 'skewX(0deg)';
+            yellowEyes.style.left = '20px';
+            yellowEyes.style.top = '35px';
+            yellowMouth.style.left = '10px';
+            pupils[6].style.transform = 'translate(-5px, -4px)';
+            pupils[7].style.transform = 'translate(-5px, -4px)';
+            
+            // 800ms后恢复
+            setTimeout(function() {
+              isPurplePeeking = false;
+              
+              if (passwordInput.value.length > 0 && showPassword) {
+                schedulePeek();
+              } else {
+                updatePupilPositions();
+                updateCharacterPositions();
+                if (!showPassword && passwordInput.value.length > 0) {
+                  // 密码隐藏时，紫色角色伸长
+                  purpleCharacter.style.height = '440px';
+                  purpleCharacter.style.transform = `skewX(${calculatePosition(purpleCharacter).bodySkew - 12}deg) translateX(40px)`;
+                  purpleEyes.style.left = '55px';
+                  purpleEyes.style.top = '65px';
+                }
+              }
+            }, 800);
+          }, Math.random() * 3000 + 2000);
+        }
+      }
+
+      // 账号输入框聚焦/失焦
+      usernameInput.addEventListener('focus', handleTypingStart);
+      usernameInput.addEventListener('blur', handleTypingEnd);
+
+      // 密码输入监听
+      passwordInput.addEventListener('input', function() {
+        if (showPassword && passwordInput.value.length > 0) {
+          // 显示密码时，所有角色身子回正，眼睛看向左边（不偷看）
+          purpleCharacter.style.height = '400px';
+          purpleCharacter.style.transform = 'skewX(0deg)';
+          purpleEyes.style.left = '20px';
+          purpleEyes.style.top = '40px';
+          pupils[0].style.transform = 'translate(-5px, 0px)';
+          pupils[1].style.transform = 'translate(-5px, 0px)';
+          
+          blackCharacter.style.transform = 'skewX(0deg)';
+          blackEyes.style.left = '15px';
+          blackEyes.style.top = '30px';
+          pupils[2].style.transform = 'translate(-5px, 0px)';
+          pupils[3].style.transform = 'translate(-5px, 0px)';
+          
+          orangeCharacter.style.transform = 'skewX(0deg)';
+          orangeEyes.style.left = '50px';
+          orangeEyes.style.top = '85px';
+          pupils[4].style.transform = 'translate(-5px, 0px)';
+          pupils[5].style.transform = 'translate(-5px, 0px)';
+          
+          yellowCharacter.style.transform = 'skewX(0deg)';
+          yellowEyes.style.left = '25px';
+          yellowEyes.style.top = '40px';
+          yellowMouth.style.left = '15px';
+          pupils[6].style.transform = 'translate(-5px, 0px)';
+          pupils[7].style.transform = 'translate(-5px, 0px)';
+        } else if (!showPassword && passwordInput.value.length > 0) {
+          // 密码隐藏时，紫色角色伸长偷看 - 使用慢速过渡
+          purpleCharacter.classList.add('slow-transition');
+          purpleEyes.classList.add('slow-transition');
+          purpleCharacter.style.height = '440px';
+          purpleCharacter.style.transform = `skewX(${calculatePosition(purpleCharacter).bodySkew - 12}deg) translateX(40px)`;
+          purpleEyes.style.left = '55px';
+          purpleEyes.style.top = '65px';
+          // 紫色看向密码框（向右下）
+          pupils[0].style.transform = 'translate(3px, 4px)';
+          pupils[1].style.transform = 'translate(3px, 4px)';
+          
+          // 其他角色恢复正常跟随鼠标
+          updateCharacterPositions();
+          updatePupilPositions();
+          // 但保持紫色的偷看姿态
+          purpleCharacter.style.height = '440px';
+          purpleCharacter.style.transform = `skewX(${calculatePosition(purpleCharacter).bodySkew - 12}deg) translateX(40px)`;
+          purpleEyes.style.left = '55px';
+          purpleEyes.style.top = '65px';
+          pupils[0].style.transform = 'translate(3px, 4px)';
+          pupils[1].style.transform = 'translate(3px, 4px)';
+        } else {
+          clearPeekTimeout();
+          // 密码删除完恢复时使用退出速度
+          purpleCharacter.classList.remove('slow-transition');
+          purpleCharacter.classList.add('slow-transition-exit');
+          purpleEyes.classList.remove('slow-transition');
+          purpleEyes.classList.add('slow-transition-exit');
+          purpleCharacter.style.height = '400px';
+          if (!isLookingAtEachOther) {
+            updateCharacterPositions();
+            updatePupilPositions();
+          }
+          // 恢复正常速度
+          setTimeout(function() {
+            purpleCharacter.classList.remove('slow-transition-exit');
+            purpleEyes.classList.remove('slow-transition-exit');
+          }, 500);
+        }
+      });
+
+      // 密码框聚焦
+      passwordInput.addEventListener('focus', function() {
+        if (!showPassword && passwordInput.value.length > 0) {
+          purpleCharacter.classList.add('slow-transition');
+          purpleEyes.classList.add('slow-transition');
+          purpleCharacter.style.height = '440px';
+          purpleCharacter.style.transform = `skewX(${calculatePosition(purpleCharacter).bodySkew - 12}deg) translateX(40px)`;
+          purpleEyes.style.left = '55px';
+          purpleEyes.style.top = '65px';
+        }
+      });
+
+      // 密码显示/隐藏切换
+      togglePassword.addEventListener('click', function() {
+        showPassword = !showPassword;
+        passwordInput.type = showPassword ? 'text' : 'password';
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+        
+        if (showPassword && passwordInput.value.length > 0) {
+          // 显示密码时，所有角色身子回正，眼睛看向左边（不偷看）
+          purpleCharacter.style.height = '400px';
+          purpleCharacter.style.transform = 'skewX(0deg)';
+          purpleEyes.style.left = '20px';
+          purpleEyes.style.top = '40px';
+          pupils[0].style.transform = 'translate(-5px, 0px)';
+          pupils[1].style.transform = 'translate(-5px, 0px)';
+          
+          blackCharacter.style.transform = 'skewX(0deg)';
+          blackEyes.style.left = '15px';
+          blackEyes.style.top = '30px';
+          pupils[2].style.transform = 'translate(-5px, 0px)';
+          pupils[3].style.transform = 'translate(-5px, 0px)';
+          
+          orangeCharacter.style.transform = 'skewX(0deg)';
+          orangeEyes.style.left = '50px';
+          orangeEyes.style.top = '85px';
+          pupils[4].style.transform = 'translate(-5px, 0px)';
+          pupils[5].style.transform = 'translate(-5px, 0px)';
+          
+          yellowCharacter.style.transform = 'skewX(0deg)';
+          yellowEyes.style.left = '25px';
+          yellowEyes.style.top = '40px';
+          yellowMouth.style.left = '15px';
+          pupils[6].style.transform = 'translate(-5px, 0px)';
+          pupils[7].style.transform = 'translate(-5px, 0px)';
+        } else {
+          clearPeekTimeout();
+          if (passwordInput.value.length > 0) {
+            // 切换到密码隐藏时使用慢速过渡 - 紫色角色伸长偷看
+            purpleCharacter.classList.add('slow-transition');
+            purpleEyes.classList.add('slow-transition');
+            purpleCharacter.style.height = '440px';
+            purpleCharacter.style.transform = `skewX(${calculatePosition(purpleCharacter).bodySkew - 12}deg) translateX(40px)`;
+            purpleEyes.style.left = '55px';
+            purpleEyes.style.top = '65px';
+            // 紫色看向密码框（向右下）
+            pupils[0].style.transform = 'translate(3px, 4px)';
+            pupils[1].style.transform = 'translate(3px, 4px)';
+            
+            // 其他角色恢复正常跟随鼠标
+            updateCharacterPositions();
+            updatePupilPositions();
+            // 但保持紫色的偷看姿态
+            purpleCharacter.style.height = '440px';
+            purpleCharacter.style.transform = `skewX(${calculatePosition(purpleCharacter).bodySkew - 12}deg) translateX(40px)`;
+            purpleEyes.style.left = '55px';
+            purpleEyes.style.top = '65px';
+            pupils[0].style.transform = 'translate(3px, 4px)';
+            pupils[1].style.transform = 'translate(3px, 4px)';
+          } else {
+            // 密码为空时恢复使用退出速度
+            purpleCharacter.classList.remove('slow-transition');
+            purpleCharacter.classList.add('slow-transition-exit');
+            purpleEyes.classList.remove('slow-transition');
+            purpleEyes.classList.add('slow-transition-exit');
+            purpleCharacter.style.height = '400px';
+            updateCharacterPositions();
+            updatePupilPositions();
+            // 恢复正常速度
+            setTimeout(function() {
+              purpleCharacter.classList.remove('slow-transition-exit');
+              purpleEyes.classList.remove('slow-transition-exit');
+            }, 500);
+          }
+        }
+      });
+
+      function showToast(message, type = 'info') {
+        const icons = {
+          success: 'fas fa-check-circle',
+          error: 'fas fa-times-circle',
+          warning: 'fas fa-exclamation-circle',
+          info: 'fas fa-info-circle'
+        };
+        toastIcon.className = icons[type];
+        toastMessage.textContent = message;
+        toast.className = 'toast toast-' + type;
+        toast.style.display = 'flex';
+        setTimeout(function() {
+          toast.style.display = 'none';
+        }, 3000);
+      }
+
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        
+        if (!username || !password) {
+          showToast('请输入账号和密码', 'warning');
+          return;
+        }
+        
+        loginBtn.disabled = true;
+        loadingIcon.style.display = 'inline';
+        loginText.textContent = '登录中...';
+        
+        try {
+          const response = await fetch(window.location.origin + '/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok && data.access_token) {
+            document.cookie = `ai_edu_token=${data.access_token}; path=/`;
+            document.cookie = `ai_edu_user=${encodeURIComponent(JSON.stringify(data.user))}; path=/`;
+            
+            try {
+              sessionStorage.setItem('ai_edu_token', data.access_token);
+              sessionStorage.setItem('ai_edu_user', JSON.stringify(data.user));
+            } catch (e) {
+              console.warn('sessionStorage blocked');
+            }
+            
+            showToast('登录成功！正在跳转...', 'success');
+            
+            setTimeout(function() {
+              window.location.href = '/' + data.user.role + '/dashboard';
+            }, 500);
+          } else {
+            showToast(data.detail || data.message || '登录失败', 'error');
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+          showToast('登录失败：网络错误', 'error');
+        } finally {
+          loginBtn.disabled = false;
+          loadingIcon.style.display = 'none';
+          loginText.textContent = '登 录';
+        }
+      });
+      
+      console.log('Animated login page ready');
+    });
+  </script>
+</body>
+</html>
